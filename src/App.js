@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+// import useCountry from './hooks/index';
+
+const API_WEATHER_KEY = 'cbe3a5258849eb31e096fd9bf0763eb8';
 
 const useField = type => {
   const [value, setValue] = useState('');
 
   const onChange = event => {
+    // console.log(event.target.value);
     setValue(event.target.value);
   };
 
@@ -18,12 +21,34 @@ const useField = type => {
 const useCountry = name => {
   const [country, setCountry] = useState(null);
 
-  useEffect();
+  // useEffect();
+
+  console.log(name);
+  // //get all countries from api
+  useEffect(() => {
+    async function fetchData() {
+      const res = await fetch(`https://restcountries.eu/rest/v2/name/${name}`);
+      const data = await res.json();
+      // const obj = JSON.parse(data);
+      console.log(res);
+      console.log(typeof data[0]);
+      console.log(data[0]);
+      let c = { country: { data: data[0] } };
+      c.country.found = true;
+      console.log(c);
+      // console.log(c.country);
+      setCountry(c.country);
+      // console.log(country);
+    }
+
+    fetchData();
+  }, [name]);
 
   return country;
 };
 
 const Country = ({ country }) => {
+  console.log('country', country);
   if (!country) {
     return null;
   }
