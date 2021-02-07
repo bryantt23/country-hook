@@ -21,24 +21,12 @@ const useField = type => {
 const useCountry = name => {
   const [country, setCountry] = useState(null);
 
-  // useEffect();
-
-  console.log(name);
-  // //get all countries from api
   useEffect(() => {
     async function fetchData() {
       const res = await fetch(`https://restcountries.eu/rest/v2/name/${name}`);
       const data = await res.json();
-      // const obj = JSON.parse(data);
-      console.log(res);
-      console.log(typeof data[0]);
-      console.log(data[0]);
-      let c = { country: { data: data[0] } };
-      c.country.found = true;
-      console.log(c);
-      // console.log(c.country);
+      const c = { country: { data: data[0], found: true } };
       setCountry(c.country);
-      // console.log(country);
     }
 
     fetchData();
